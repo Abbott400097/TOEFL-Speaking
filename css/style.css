@@ -1,0 +1,498 @@
+/* TOEFL Speaking — 深色主题，琥珀色强调 */
+:root {
+  --bg: #0f172a;
+  --bg-card: #1e293b;
+  --bg-elevated: #334155;
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --accent: #f59e0b;
+  --accent-hover: #fbbf24;
+  --danger: #ef4444;
+  --success: #22c55e;
+  --radius: 12px;
+  --font-sans: 'Outfit', system-ui, sans-serif;
+  --font-serif: 'Source Serif 4', Georgia, serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--bg-elevated);
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--accent);
+}
+
+.nav-tasks {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.task-btn {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--bg-elevated);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.task-btn:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.task-btn.active {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+
+.main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.intro-panel h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  margin: 0 0 2rem;
+  font-size: 1rem;
+}
+
+.task-cards {
+  display: grid;
+  gap: 1rem;
+}
+
+.task-card {
+  padding: 1.25rem 1.5rem;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  border: 1px solid var(--bg-elevated);
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.15s;
+}
+
+.task-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.task-card .task-label {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.task-card h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.35rem;
+}
+
+.task-card p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+/* Practice panel */
+.practice-panel {
+  animation: fadeIn 0.3s ease;
+}
+
+.practice-panel.hidden {
+  display: none;
+}
+
+.intro-panel.hidden {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.question-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.task-badge {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0.25rem 0;
+}
+
+.back-btn:hover {
+  color: var(--text);
+}
+
+.phase {
+  margin-bottom: 1.5rem;
+}
+
+.phase.hidden {
+  display: none;
+}
+
+.phase-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.timer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.5rem;
+  padding: 0.25rem 0.5rem;
+  background: var(--bg-elevated);
+  border-radius: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.timer-response {
+  background: rgba(245, 158, 11, 0.2);
+  color: var(--accent);
+}
+
+.timer.warning {
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--danger);
+}
+
+.prompt-box {
+  padding: 1.25rem 1.5rem;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  border: 1px solid var(--bg-elevated);
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.record-area {
+  margin-top: 1.5rem;
+}
+
+.btn-record {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn-record:hover {
+  background: var(--accent-hover);
+}
+
+.btn-record:active {
+  transform: scale(0.98);
+}
+
+.btn-record.recording {
+  background: var(--danger);
+  pointer-events: none;
+}
+
+.record-icon {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.btn-record.recording .record-icon {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.1); }
+}
+
+.record-label {
+  font-variant-numeric: tabular-nums;
+}
+
+.recording-status {
+  margin-top: 0.75rem;
+  color: var(--danger);
+  font-size: 0.9rem;
+}
+
+.recording-status.hidden {
+  display: none;
+}
+
+.playback-area {
+  margin-top: 1rem;
+}
+
+.playback-area.hidden {
+  display: none;
+}
+
+.playback-area audio {
+  width: 100%;
+  max-width: 400px;
+  height: 40px;
+}
+
+.phase-done .done-message {
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+/* 评分区域（与真实托福一致：0–4 分） */
+.score-section {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  border: 1px solid var(--bg-elevated);
+}
+
+.score-heading {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+  color: var(--text);
+}
+
+.ai-score-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.btn-ai-score {
+  margin-top: 0;
+}
+
+.ai-score-status {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.ai-score-result {
+  margin-bottom: 0.75rem;
+  padding: 0.75rem;
+  background: var(--bg);
+  border-radius: 8px;
+  border: 1px solid var(--bg-elevated);
+}
+
+.ai-score-result.hidden {
+  display: none;
+}
+
+.ai-score-reason {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.ai-score-transcript {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.score-selector {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.score-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 2px solid var(--bg-elevated);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.score-btn:hover {
+  border-color: var(--accent);
+  background: rgba(245, 158, 11, 0.15);
+}
+
+.score-btn.selected {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.score-result {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin: 0 0 1rem;
+}
+
+.score-result.score-set {
+  color: var(--success);
+  font-weight: 500;
+}
+
+.rubric-box {
+  margin-top: 0.5rem;
+}
+
+.rubric-hint {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0 0 0.5rem;
+}
+
+.rubric-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.rubric-item {
+  padding: 0.6rem 0.75rem;
+  background: var(--bg);
+  border-radius: 8px;
+  border: 1px solid var(--bg-elevated);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.rubric-item:hover {
+  border-color: var(--accent);
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.rubric-item .rubric-desc {
+  display: none;
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.rubric-item.open .rubric-desc {
+  display: block;
+}
+
+.rubric-item .rubric-score {
+  font-weight: 600;
+  color: var(--accent);
+  margin-right: 0.5rem;
+}
+
+.rubric-item .rubric-short {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+.btn-text {
+  text-decoration: none;
+}
+
+@media (max-width: 600px) {
+  .site-header {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+
+  .nav-tasks {
+    flex-wrap: wrap;
+  }
+
+  .task-btn {
+    flex: 1;
+    min-width: 70px;
+  }
+}

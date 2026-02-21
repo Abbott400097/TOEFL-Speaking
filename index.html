@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TOEFL 口语练习 | Speaking Practice</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">TOEFL Speaking</div>
+    <nav class="nav-tasks">
+      <button type="button" class="task-btn active" data-task="1">Task 1</button>
+      <button type="button" class="task-btn" data-task="2">Task 2</button>
+      <button type="button" class="task-btn" data-task="3">Task 3</button>
+      <button type="button" class="task-btn" data-task="4">Task 4</button>
+    </nav>
+  </header>
+
+  <main class="main">
+    <section class="intro-panel" id="introPanel">
+      <h1>托福口语练习</h1>
+      <p class="subtitle">选择题型开始练习，准备时间与答题时间将严格按考试要求计时。</p>
+      <div class="task-cards">
+        <article class="task-card" data-task="1">
+          <span class="task-label">Task 1</span>
+          <h2>Independent — 独立题</h2>
+          <p>根据熟悉话题发表个人观点，准备 15 秒，作答 45 秒。</p>
+        </article>
+        <article class="task-card" data-task="2">
+          <span class="task-label">Task 2</span>
+          <h2>Campus — 校园场景</h2>
+          <p>阅读+听力，就校园话题表达立场，准备 30 秒，作答 60 秒。</p>
+        </article>
+        <article class="task-card" data-task="3">
+          <span class="task-label">Task 3</span>
+          <h2>Academic — 学术概念</h2>
+          <p>阅读+听力，用例子解释学术概念，准备 30 秒，作答 60 秒。</p>
+        </article>
+        <article class="task-card" data-task="4">
+          <span class="task-label">Task 4</span>
+          <h2>Academic — 讲座摘要</h2>
+          <p>听讲座后总结要点，准备 20 秒，作答 60 秒。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="practice-panel hidden" id="practicePanel">
+      <div class="question-header">
+        <span class="task-badge" id="taskBadge">Task 1</span>
+        <button type="button" class="btn-text back-btn" id="backBtn">← 返回选题</button>
+      </div>
+
+      <div class="phase phase-prep" id="phasePrep">
+        <h2 class="phase-title">准备时间 <span class="timer" id="prepTimer">0:15</span></h2>
+        <div class="prompt-box" id="prepPrompt"></div>
+      </div>
+
+      <div class="phase phase-response hidden" id="phaseResponse">
+        <h2 class="phase-title">作答时间 <span class="timer timer-response" id="responseTimer">0:45</span></h2>
+        <div class="prompt-box" id="responsePrompt"></div>
+        <div class="record-area">
+          <button type="button" class="btn-record" id="recordBtn">
+            <span class="record-icon"></span>
+            <span class="record-label">开始录音</span>
+          </button>
+          <div class="recording-status hidden" id="recordingStatus">正在录音…</div>
+          <div class="playback-area hidden" id="playbackArea">
+            <audio id="playbackAudio" controls></audio>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase phase-done hidden" id="phaseDone">
+        <p class="done-message">本题已完成。可播放录音回听，根据下方 ETS 评分标准自评或由他人评分。</p>
+        <div class="playback-area">
+          <audio id="donePlaybackAudio" controls></audio>
+        </div>
+        <div class="score-section">
+          <h3 class="score-heading">评分（与真实托福一致，每题 0–4 分）</h3>
+          <div class="ai-score-row">
+            <button type="button" class="btn-primary btn-ai-score" id="aiScoreBtn" disabled>AI 评分</button>
+            <span class="ai-score-status" id="aiScoreStatus"></span>
+          </div>
+          <div class="ai-score-result hidden" id="aiScoreResult">
+            <p class="ai-score-reason" id="aiScoreReason"></p>
+            <p class="ai-score-transcript" id="aiScoreTranscript"></p>
+          </div>
+          <div class="score-selector" id="scoreSelector">
+            <button type="button" class="score-btn" data-score="0">0</button>
+            <button type="button" class="score-btn" data-score="1">1</button>
+            <button type="button" class="score-btn" data-score="2">2</button>
+            <button type="button" class="score-btn" data-score="3">3</button>
+            <button type="button" class="score-btn" data-score="4">4</button>
+          </div>
+          <p class="score-result" id="scoreResult">请选择本题得分（0–4）。</p>
+          <div class="rubric-box" id="rubricBox">
+            <p class="rubric-hint">点击分数可展开该档评分标准说明。</p>
+            <div class="rubric-list" id="rubricList"></div>
+          </div>
+        </div>
+        <button type="button" class="btn-primary" id="nextQuestionBtn">下一题</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/rubric.js"></script>
+  <script src="js/questions.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
