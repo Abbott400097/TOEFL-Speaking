@@ -5,9 +5,18 @@
   const practicePanel = document.getElementById('practicePanel');
   const backBtn = document.getElementById('backBtn');
   const taskBadge = document.getElementById('taskBadge');
+  const phaseListen = document.getElementById('phaseListen');
   const phasePrep = document.getElementById('phasePrep');
   const phaseResponse = document.getElementById('phaseResponse');
   const phaseDone = document.getElementById('phaseDone');
+  const readingBox = document.getElementById('readingBox');
+  const readingText = document.getElementById('readingText');
+  const playListenBtn = document.getElementById('playListenBtn');
+  const listenStatus = document.getElementById('listenStatus');
+  const afterListenBtn = document.getElementById('afterListenBtn');
+  const listenAudioWrap = document.getElementById('listenAudioWrap');
+  const listenAudioEl = document.getElementById('listenAudio');
+  const listenDurationHint = document.getElementById('listenDurationHint');
   const prepTimerEl = document.getElementById('prepTimer');
   const responseTimerEl = document.getElementById('responseTimer');
   const prepPrompt = document.getElementById('prepPrompt');
@@ -38,7 +47,9 @@
     /** 本次会话各题得分 { task1: 0-4, task2: 0-4, ... }，未做题为 undefined */
     sessionScores: {},
     /** 当前题录音 blob，用于 AI 评分上传 */
-    lastRecordedBlob: null
+    lastRecordedBlob: null,
+    /** 听力 TTS 或 audio 播放中 */
+    listenPlaying: false
   };
 
   function formatTime(seconds) {
@@ -65,9 +76,11 @@
   }
 
   function switchPhase(name) {
+    if (phaseListen) phaseListen.classList.add('hidden');
     phasePrep.classList.add('hidden');
     phaseResponse.classList.add('hidden');
     phaseDone.classList.add('hidden');
+    if (name === 'listen') phaseListen.classList.remove('hidden');
     if (name === 'prep') phasePrep.classList.remove('hidden');
     if (name === 'response') phaseResponse.classList.remove('hidden');
     if (name === 'done') phaseDone.classList.remove('hidden');
@@ -84,11 +97,93 @@
     }
   }
 
+  /** 是否有听力（Task 2/3/4）：需先听再准备，准备阶段只显示题目 */
+  function hasListening(q) {
+    return q && (q.listening || (q.listeningAudio));
+  }
+
   function renderPrepPrompt(q) {
-    let html = q.prep || '';
-    if (q.reading) html = '[Reading]\n' + q.reading + '\n\n[Listening]\n' + (q.listening || '') + '\n\n[Question]\n' + (q.prep || '');
-    prepPrompt.textContent = html;
+    prepPrompt.textContent = q.prep || '';
     responsePrompt.textContent = 'Now you have ' + q.responseSeconds + ' seconds to give your response. Click "开始录音" and speak.';
+  }
+
+  function renderListenPhase(q) {
+    if (!phaseListen || !q) return;
+    if (listenDurationHint) {
+      if (q.listeningDurationLabel) {
+        listenDurationHint.textContent = q.listeningDurationLabel;
+        listenDurationHint.classList.remove('hidden');
+      } else {
+        listenDurationHint.textContent = '';
+        listenDurationHint.classList.add('hidden');
+      }
+    }
+    if (readingBox && readingText) {
+      if (q.reading) {
+        readingBox.classList.remove('hidden');
+        readingText.textContent = q.reading;
+      } else {
+        readingBox.classList.add('hidden');
+      }
+    }
+    if (playListenBtn) {
+      playListenBtn.classList.remove('hidden');
+      playListenBtn.disabled = false;
+    }
+    if (listenStatus) listenStatus.classList.add('hidden');
+    if (afterListenBtn) afterListenBtn.classList.add('hidden');
+    if (listenAudioWrap) listenAudioWrap.classList.add('hidden');
+    if (listenAudioEl) {
+      listenAudioEl.pause();
+      listenAudioEl.removeAttribute('src');
+    }
+    state.listenPlaying = false;
+  }
+
+  function playListeningTTS(text) {
+    if (!text || !window.speechSynthesis) {
+      if (afterListenBtn) { afterListenBtn.classList.remove('hidden'); }
+      return;
+    }
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US';
+    u.rate = 0.9;
+    u.onend = function () {
+      state.listenPlaying = false;
+      if (listenStatus) listenStatus.classList.add('hidden');
+      if (playListenBtn) { playListenBtn.disabled = false; }
+      if (afterListenBtn) afterListenBtn.classList.remove('hidden');
+    };
+    u.onerror = function () {
+      state.listenPlaying = false;
+      if (listenStatus) listenStatus.classList.add('hidden');
+      if (playListenBtn) playListenBtn.disabled = false;
+      if (afterListenBtn) afterListenBtn.classList.remove('hidden');
+    };
+    state.listenPlaying = true;
+    if (listenStatus) listenStatus.classList.remove('hidden');
+    if (playListenBtn) playListenBtn.disabled = true;
+    window.speechSynthesis.speak(u);
+  }
+
+  function stopListeningPlayback() {
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    if (listenAudioEl) {
+      listenAudioEl.pause();
+      listenAudioEl.removeAttribute('src');
+    }
+    state.listenPlaying = false;
+    if (listenStatus) listenStatus.classList.add('hidden');
+    if (playListenBtn) playListenBtn.disabled = false;
+    if (afterListenBtn) afterListenBtn.classList.add('hidden');
+  }
+
+  function startPrepAfterListen(q) {
+    stopListeningPlayback();
+    switchPhase('prep');
+    renderPrepPrompt(q);
+    startPrepTimer(q);
   }
 
   function startPrepTimer(q) {
@@ -230,12 +325,18 @@
   }
 
   function startQuestion() {
+    stopListeningPlayback();
     const q = getCurrentQuestion();
     if (!q) return;
     taskBadge.textContent = 'Task ' + state.task;
-    renderPrepPrompt(q);
-    switchPhase('prep');
-    startPrepTimer(q);
+    if (hasListening(q)) {
+      renderListenPhase(q);
+      switchPhase('listen');
+    } else {
+      renderPrepPrompt(q);
+      switchPhase('prep');
+      startPrepTimer(q);
+    }
   }
 
   function openTask(taskNum) {
@@ -262,7 +363,41 @@
     });
   });
 
-  backBtn.addEventListener('click', showIntro);
+  backBtn.addEventListener('click', function () {
+    stopListeningPlayback();
+    showIntro();
+  });
+
+  if (playListenBtn) {
+    playListenBtn.addEventListener('click', function () {
+      var q = getCurrentQuestion();
+      if (!q || state.listenPlaying) return;
+      if (q.listeningAudio) {
+        listenAudioWrap.classList.remove('hidden');
+        listenAudioEl.src = q.listeningAudio;
+        listenAudioEl.play();
+        state.listenPlaying = true;
+        if (listenStatus) listenStatus.classList.remove('hidden');
+        playListenBtn.disabled = true;
+        listenAudioEl.onended = function () {
+          state.listenPlaying = false;
+          if (listenStatus) listenStatus.classList.add('hidden');
+          playListenBtn.disabled = false;
+          if (afterListenBtn) afterListenBtn.classList.remove('hidden');
+        };
+      } else if (q.listening) {
+        playListeningTTS(q.listening);
+      } else if (afterListenBtn) {
+        afterListenBtn.classList.remove('hidden');
+      }
+    });
+  }
+  if (afterListenBtn) {
+    afterListenBtn.addEventListener('click', function () {
+      var q = getCurrentQuestion();
+      if (q) startPrepAfterListen(q);
+    });
+  }
 
   nextQuestionBtn.addEventListener('click', function () {
     state.questionIndex++;

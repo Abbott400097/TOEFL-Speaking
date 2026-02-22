@@ -98,6 +98,18 @@ toefl-speaking-practice/
 
 ---
 
+## 真题 / TPO 听力素材
+
+Task 2/3/4 的听力在真实考试中**有时长要求**：Task 2 校园对话约 60–90 秒，Task 3 约 60–90 秒，**Task 4 讲座约 1.5–2 分钟**。当前题目库（`js/questions.js`）里是示例短文，用浏览器 TTS 朗读，适合试跑；若要用**真题或 TPO 音频**：
+
+1. 将听力 MP3 放到项目目录下，例如建一个 `audio/` 文件夹。
+2. 在 `js/questions.js` 里对应题目中增加 `listeningAudio` 字段，指向该音频路径（如 `'/audio/task4_tpo1.mp3'`）。
+3. 若使用 `server.py` 提供静态文件，把 `audio/` 放在项目根目录即可被访问。
+
+这样会优先播放你提供的音频，长度和真实考试一致；未提供 `listeningAudio` 时仍会回退到用 TTS 朗读 `listening` 文稿。题目可选字段 `listeningDurationLabel`（如 `"约 2 分钟"`）会在听力阶段显示，方便考生预估时长。
+
+---
+
 ## 浏览器与许可
 
 - 建议使用 **Chrome / Edge / Firefox** 最新版；录音需允许麦克风权限。  

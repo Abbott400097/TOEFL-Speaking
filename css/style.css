@@ -213,6 +213,70 @@ body {
   color: var(--danger);
 }
 
+/* 听力阶段（Task 2/3/4）*/
+.phase-listen .listen-duration-hint {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.phase-listen .listen-duration-hint.hidden {
+  display: none;
+}
+
+.phase-listen .reading-box {
+  margin-bottom: 1.25rem;
+}
+
+.phase-listen .listen-subtitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 0.5rem;
+}
+
+.phase-listen .listen-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-top: 1rem;
+}
+
+.phase-listen .listen-status {
+  color: var(--accent);
+  font-size: 0.95rem;
+}
+
+.phase-listen .btn-secondary {
+  padding: 0.5rem 1rem;
+  background: var(--bg-elevated);
+  color: var(--text);
+  border: 1px solid var(--bg-elevated);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.phase-listen .btn-secondary:hover {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+
+.phase-listen .listen-audio-wrap {
+  margin-top: 1rem;
+}
+
+.phase-listen .listen-audio-wrap audio {
+  width: 100%;
+  max-width: 400px;
+}
+
 .prompt-box {
   padding: 1.25rem 1.5rem;
   background: var(--bg-card);

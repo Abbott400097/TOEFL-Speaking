@@ -1,10 +1,10 @@
 仓库名称建议: toefl-speaking-practice
 
 简短描述 (Short description，GitHub 仓库副标题，约 一句话):
-托福口语练习站：按考试计时 + 录音回放 + Claude/OpenAI 按 ETS 标准自动评分（0–4 分）
+托福口语练习站：Task 2/3/4 听力播放 + 按考试计时 + 录音回放 + Claude/OpenAI 按 ETS 标准自动评分（0–4 分）
 
 详细描述 (About / Description，可放在仓库 About 里):
-TOEFL iBT Speaking practice with strict timing, in-browser recording, and AI scoring (Claude or OpenAI) aligned to ETS 0–4 rubric. Uses Whisper for transcription and WPM for fluency; supports custom transcription/scoring APIs.
+TOEFL iBT Speaking practice: listen-first for Task 2/3/4 (TTS or your own TPO/audio), strict timing, in-browser recording, and AI scoring (Claude or OpenAI) aligned to ETS 0–4 rubric. Uses Whisper for transcription and WPM for fluency; supports custom transcription/scoring APIs and TPO/real test audio.
 
 主题 / Topics (在仓库右侧添加标签):
 toefl, speaking, english, ets, claude, openai, whisper, practice, language-learning

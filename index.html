@@ -54,6 +54,22 @@
         <button type="button" class="btn-text back-btn" id="backBtn">← 返回选题</button>
       </div>
 
+      <div class="phase phase-listen hidden" id="phaseListen">
+        <h2 class="phase-title">听力 <span class="listen-duration-hint" id="listenDurationHint"></span></h2>
+        <div class="reading-box hidden" id="readingBox">
+          <h3 class="listen-subtitle">阅读</h3>
+          <div class="prompt-box" id="readingText"></div>
+        </div>
+        <div class="listen-actions" id="listenActions">
+          <button type="button" class="btn-primary" id="playListenBtn">播放听力</button>
+          <span class="listen-status hidden" id="listenStatus">正在播放听力…</span>
+          <button type="button" class="btn-secondary btn-after-listen hidden" id="afterListenBtn">已听完，开始准备</button>
+        </div>
+        <div class="listen-audio-wrap hidden" id="listenAudioWrap">
+          <audio id="listenAudio" controls></audio>
+        </div>
+      </div>
+
       <div class="phase phase-prep" id="phasePrep">
         <h2 class="phase-title">准备时间 <span class="timer" id="prepTimer">0:15</span></h2>
         <div class="prompt-box" id="prepPrompt"></div>
